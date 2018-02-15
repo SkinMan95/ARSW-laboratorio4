@@ -28,13 +28,18 @@ Create a simple front end using the following frameworks:
 # Part 2: Implement the FrontEnd controller
 
 1. Create a JavaScript file called  **OrdersController.js**
-2. Create a JavaScript object that represents an Order **OrdersController.js** (Do not forget to add an id attribute to the Order object).
+2. Create a JavaScript object list that represents the table on Part 1 on the Order **OrdersController.js** (Do not forget to add an id attribute to the Order object).
 3. Create a function that adds a order to the orders table created on part 1.
 4. Create a function that removes an order from the table with a given id: *removeOrderById(int id)*
     Use the following method to start: https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
+5. Try your add order function iterating the list created on 2. and make sure the data is loaded into the table from the JavaScript code.
 
 # Part 3: Consume the REST API and connect it with the FrontEnd
 1. Create a function that calls the API Endpoint that retrieves the orders list using the [Axios API library](https://github.com/axios/axios)
 2. Implement the callback when the orders list is return succesfully that uses the *OrderController.js* functions.
 3. Add a script that invokes the *loadOrdersList* funtcion everytime the page is loaded
 4. Implement the callback when the request fails that shows a dialog to user saying that "There is a problem with our servers. We apologize for the inconvince, please try again later" 
+5. In order to test your application do the following:
+    - Add your JavaScript file to the SpringBoot project under the resources/static/js folder (create the folder if it does not exist)
+    - Add your html page (index.html) to the resources/static folder
+6. Create a Heroku project and deploy your SpringBoot then test that it works as expected.
