@@ -16,12 +16,14 @@ Create a simple front end using the following frameworks:
   
  3. Update the  content of your page (where the learn more button is located) with a table that will display the order with hardcoded values:
   
-    **Order 1:**
-    | Product      | Quantity | Price         | 
-	| ------------- | ----- |:-------------:| 
-	|PIZZA|3|$10000|
-	|HOTDOG|1|$3000|
-	|COKE|4|$1300|
+**Order 1:**
+
+
+  | Product | Quantity | Price | 
+  | ------------- | ----- |:-------------:| 
+  |PIZZA|3|$10000| 
+  |HOTDOG|1|$3000|
+  |COKE|4|$1300|
 
 # Part 2: Implement the FrontEnd controller
 
