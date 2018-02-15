@@ -37,4 +37,4 @@ Create a simple front end using the following frameworks:
 1. Create a function that calls the API Endpoint that retrieves the orders list using the [Axios API library](https://github.com/axios/axios)
 2. Implement the callback when the orders list is return succesfully that uses the *OrderController.js* functions.
 3. Add a script that invokes the *loadOrdersList* funtcion everytime the page is loaded
-4. Implement the callback when the request failes that shows a dialog to user saying that "There is a problem on our servers. We apologize for the inconvince, please try again later" 
+4. Implement the callback when the request fails that shows a dialog to user saying that "There is a problem with our servers. We apologize for the inconvince, please try again later" 
