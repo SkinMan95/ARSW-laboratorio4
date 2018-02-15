@@ -29,8 +29,27 @@ Create a simple front end using the following frameworks:
 
 1. Create a JavaScript file called  **OrdersController.js**
 2. Create a JavaScript object list that represents the table on Part 1 on the Order **OrdersController.js** (Do not forget to add an id attribute to the Order object).
-3. Create a function that adds an order to the orders table created on part 1.
-4. Create a function that removes an order from the table with a given id: *removeOrderById(int id)*
+
+```javascript
+{
+	"order_id": 1,
+	"table_id": 1,
+	"products": [{
+			"product": "PIZZA",
+			"quantity": 3,
+			"price": "$15.000"
+		},
+		{
+			"product": "HAMBURGER",
+			"quantity": 1,
+			"price": "$12.300"
+		}
+	]
+}
+```
+
+3. Create a function that adds an order (a new table below the existing Order 1 table).
+4. Create a function that removes an order table with a given id: *removeOrderById(int id)*
     Use the following method to start: https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
 5. Try your add order function iterating the list created on 2. and make sure the data is loaded into the table from the JavaScript code.
 
