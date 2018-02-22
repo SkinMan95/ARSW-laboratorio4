@@ -1,6 +1,6 @@
 var list = [
     {
-	order_id: 1,
+	order_id: 2,
 	table_id: 2,
 	products: [
 	    {
@@ -12,6 +12,38 @@ var list = [
 		product: "HAMBURGER",
 		quantity: 1,
 		price: "$12.300"
+	    }
+	]
+    },
+    {
+	order_id: 3,
+	table_id: 3,
+	products: [
+	    {
+		product: "BEER",
+		quantity: 2,
+		price: "$2.000"
+	    },
+	    {
+		product: "HOTDOG",
+		quantity: 1,
+		price: "$13.200"
+	    }
+	]
+    },
+    {
+	order_id: 4,
+	table_id: 4,
+	products: [
+	    {
+		product: "HOTDOG",
+		quantity: 1,
+		price: "$5.000"
+	    },
+	    {
+		product: "HAMBURGER",
+		quantity: 2,
+		price: "$4.600"
 	    }
 	]
     }
@@ -42,7 +74,6 @@ function addOrder(order) {
 
     for(index = 0 ; index < order.products.length; index++) {
 	var product = order.products[index];
-	console.log(product);
 	var row = document.createElement("tr");
 	row.setAttribute("id", "table" + order.table_id + "_dish" + (index+1));
 	row.setAttribute("class", "table_product");
@@ -70,4 +101,19 @@ function addOrder(order) {
 }
 
 
-addOrder(list[0]);
+// addOrder(list[0]);
+
+function removeOrderById(id) {
+    var table = document.getElementById("table" + id);
+    if (table != null) {
+	table.remove();
+    }
+}
+
+// removeOrderById(1);
+
+function loadOrders() {
+    for(var order in list) {
+	addOrder(list[order]);
+    }
+}
