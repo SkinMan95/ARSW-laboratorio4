@@ -1,54 +1,3 @@
-var list = [
-    {
-	order_id: 2,
-	table_id: 2,
-	products: [
-	    {
-		product: "PIZZA",
-		quantity: 3,
-		price: "$15.000"
-	    },
-	    {
-		product: "HAMBURGER",
-		quantity: 1,
-		price: "$12.300"
-	    }
-	]
-    },
-    {
-	order_id: 3,
-	table_id: 3,
-	products: [
-	    {
-		product: "BEER",
-		quantity: 2,
-		price: "$2.000"
-	    },
-	    {
-		product: "HOTDOG",
-		quantity: 1,
-		price: "$13.200"
-	    }
-	]
-    },
-    {
-	order_id: 4,
-	table_id: 4,
-	products: [
-	    {
-		product: "HOTDOG",
-		quantity: 1,
-		price: "$5.000"
-	    },
-	    {
-		product: "HAMBURGER",
-		quantity: 2,
-		price: "$4.600"
-	    }
-	]
-    }
-];
-
 function addOrder(order) {
     var tables = document.getElementById("order_tables");
 
@@ -58,19 +7,19 @@ function addOrder(order) {
 
     var tbody = document.createElement("tbody");
 
-    var table_header = document.createElement("tr");
-    table_header.setAttribute("class", "table_header");
+    var tableHeader = document.createElement("tr");
+    tableHeader.setAttribute("class", "table_header");
     
-    var header_row = document.createElement("th");
-    header_row.innerHTML = "Product";
-    table_header.appendChild(header_row);
-    header_row = document.createElement("th");
-    header_row.innerHTML = "Quantity";
-    table_header.appendChild(header_row);
-    header_row = document.createElement("th");
-    header_row.innerHTML = "Price";
-    table_header.appendChild(header_row);
-    tbody.appendChild(table_header);
+    var headerRow = document.createElement("th");
+    headerRow.innerHTML = "Product";
+    tableHeader.appendChild(headerRow);
+    headerRow = document.createElement("th");
+    headerRow.innerHTML = "Quantity";
+    tableHeader.appendChild(headerRow);
+    headerRow = document.createElement("th");
+    headerRow.innerHTML = "Price";
+    tableHeader.appendChild(headerRow);
+    tbody.appendChild(tableHeader);
 
     for(index = 0 ; index < order.products.length; index++) {
 	var product = order.products[index];
@@ -79,30 +28,30 @@ function addOrder(order) {
 	row.setAttribute("class", "table_product");
 	tbody.appendChild(row);
 	
-	var product_name = document.createElement("td");
-	product_name.setAttribute("class", "product_name");
-	product_name.innerHTML = product.product;
+	var productName = document.createElement("td");
+	productName.setAttribute("class", "product_name");
+	productName.innerHTML = product.product;
 	
-	var product_quantity = document.createElement("td");
-	product_quantity.setAttribute("class", "product_quantity");
-	product_quantity.innerHTML = product.quantity;
+	var productQuantity = document.createElement("td");
+	productQuantity.setAttribute("class", "product_quantity");
+	productQuantity.innerHTML = product.quantity;
 	
-	var product_price = document.createElement("td");
-	product_price.setAttribute("class", "product_price");
-	product_price.innerHTML = product.price;
+	var productPrice = document.createElement("td");
+	productPrice.setAttribute("class", "product_price");
+	productPrice.innerHTML = product.price;
 	
-	row.appendChild(product_name);
-	row.appendChild(product_quantity);
-	row.appendChild(product_price);
+	row.appendChild(productName);
+	row.appendChild(productQuantity);
+	row.appendChild(productPrice);
     }
 
     table.appendChild(tbody);
     tables.appendChild(table);
 }
 
-
-// addOrder(list[0]);
-
+/**
+ * Removes order by it's id
+ */
 function removeOrderById(id) {
     var table = document.getElementById("table" + id);
     if (table != null) {
@@ -110,10 +59,93 @@ function removeOrderById(id) {
     }
 }
 
-// removeOrderById(1);
+var PRODUCTS;
 
+function getProductPrices() {
+    return axios.get(DEFAULT_ADDRESS + '/orders/products');
+}
+
+function getOrders() {
+    return axios.get(DEFAULT_ADDRESS + '/orders');
+}
+
+/**
+ * Loads orders from the server
+ */
 function loadOrders() {
-    for(var order in list) {
-	addOrder(list[order]);
+    clearTables();
+    getData(addOrdersFromAPI);
+}
+
+/**
+ * Clears all the page's tables
+ */
+function clearTables() {
+    document.getElementById('order_tables').innerHTML = '';
+}
+
+/**
+ * // TODO por definir
+ */
+function getTableOrders(tableid) {
+    // TODO
+}
+
+/**
+ * Adds all orders from server's API
+ */
+function addOrdersFromAPI(orders) {
+    for(i in orders) {
+	ord = constructOrder(orders[i], PRODUCTS);
+	addOrder(ord);
     }
+}
+
+function constructOrder(order, products) {
+    var ord = {order_id:null, table_id:null, products:[]};
+    ord.order_id = order.tableNumber;
+    ord.table_id = order.tableNumber;
+
+    for(p in order.orderAmountsMap) {
+	var prod = {product: p, quantity: order.orderAmountsMap[p], price:null};
+	prod.price = '$' + products.filter(function (e) {
+	    return e.name === p;
+	})[0].price;
+
+	assert(products.filter(function (e) {
+	    return e.name === p;
+	}).length == 1);
+
+	ord.products.push(prod);
+    }
+
+    return ord;
+}
+
+function assert(condition) {
+    if (condition === false) {
+	console.log('Assertion Error');
+    }
+}
+
+var DEFAULT_ADDRESS = 'http://localhost:8080'; // XXX
+var server_url = DEFAULT_ADDRESS + '/orders';
+
+/**
+ * Obtains the orders from the main server
+ */
+function getData(callback_func) {
+    axios.all([getProductPrices(), getOrders()])
+	.then(axios.spread( function (prices, orders) {
+	    PRODUCTS = prices.data;
+	    callback_func(orders.data);
+	}));
+}
+
+/**
+ * Shows an error popup with a message
+ */
+function showErrorMessage(msg) {
+    console.log('ERROR: ' + msg);
+    alert('ERROR: ' + msg);
 }
