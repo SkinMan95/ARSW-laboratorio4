@@ -139,13 +139,16 @@ function getData(callback_func) {
 	.then(axios.spread( function (prices, orders) {
 	    PRODUCTS = prices.data;
 	    callback_func(orders.data);
-	}));
+	}))
+	.catch(function (error) {
+	    showErrorMessage();
+	});
 }
 
 /**
  * Shows an error popup with a message
  */
-function showErrorMessage(msg) {
+function showErrorMessage(msg = 'There is a problem with our servers. We apologize for the inconvince, please try again later') {
     console.log('ERROR: ' + msg);
     alert('ERROR: ' + msg);
 }
